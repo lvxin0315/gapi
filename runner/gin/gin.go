@@ -2,7 +2,8 @@ package gin
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/lvxin0315/gapi/controller/goods"
+	"github.com/lvxin0315/gapi/controllers"
+	"github.com/lvxin0315/gapi/controllers/goods"
 )
 
 func Run() {
@@ -18,5 +19,6 @@ func Run() {
 }
 
 func addRouter(r *gin.Engine) {
+	r.GET("/", controllers.Index)
 	r.GET("/goods/:id", goods.GetOne)
 }
