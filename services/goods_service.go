@@ -10,7 +10,7 @@ import (
 /**
  * @Description 保存
  **/
-func SaveDemo(m *models.DemoModel) error {
+func SaveGoods(m *models.GoodsModel) error {
 	return db.DefaultSqliteDB(func(db *gorm.DB) error {
 		return db.Save(m).Error
 	})
@@ -19,16 +19,16 @@ func SaveDemo(m *models.DemoModel) error {
 /**
  * @Description 删除
  **/
-func DeleteDemoByIds(ids ...uint) error {
+func DeleteGoodsByIds(ids ...uint) error {
 	return db.DefaultSqliteDB(func(db *gorm.DB) error {
-		return db.Delete(&models.DemoModel{}, "id in (?)", ids).Error
+		return db.Delete(&models.GoodsModel{}, "id in (?)", ids).Error
 	})
 }
 
 /**
  * @Description 查询
  **/
-func GetDemo(id uint) (data models.DemoModel, err error) {
+func GetGoods(id uint) (data models.GoodsModel, err error) {
 	err = db.DefaultSqliteDB(func(db *gorm.DB) error {
 		return db.Where("id = ?", id).First(&data).Error
 	})
@@ -38,7 +38,7 @@ func GetDemo(id uint) (data models.DemoModel, err error) {
 /**
  * @Description 列表
  **/
-func GetDemoList(where map[string]interface{}) (dataList []models.DemoModel, err error) {
+func GetGoodsList(where map[string]interface{}) (dataList []models.GoodsModel, err error) {
 	err = db.DefaultSqliteDB(func(db *gorm.DB) error {
 		return db.Where(where).Find(&dataList).Error
 	})
@@ -48,13 +48,13 @@ func GetDemoList(where map[string]interface{}) (dataList []models.DemoModel, err
 /**
  * @Description 列表（分页）
  **/
-func GetDemoListPage(where map[string]interface{}, page uint, pageSize uint) (dataList []models.DemoModel, pagination tools.Pagination, err error) {
+func GetGoodsListPage(where map[string]interface{}, page uint, pageSize uint) (dataList []models.GoodsModel, pagination tools.Pagination, err error) {
 	offset := 0
 	if page > 1 {
 		offset = int((page - 1) * pageSize)
 	}
 	err = db.DefaultSqliteDB(func(db *gorm.DB) error {
-		theDB := db.Model(&models.DemoModel{}).Where(where)
+		theDB := db.Model(&models.GoodsModel{}).Where(where)
 		//total
 		total := 0
 		err := theDB.Count(&total).Error

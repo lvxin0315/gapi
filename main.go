@@ -36,7 +36,8 @@ func main() {
  **/
 func autoMigrate() {
 	_ = db.DefaultSqliteDB(func(db *gorm.DB) error {
-		db.AutoMigrate(models.DemoModel{})
+		db.LogMode(true)
+		db.AutoMigrate(models.DemoModel{}, models.GoodsModel{}, models.CategoryModel{})
 		return nil
 	})
 }
@@ -73,4 +74,5 @@ func swaggerRouter(r *gin.RouterGroup) {
 //理由
 func addRouter() {
 	ginEngine.GET("/", controllers.Index)
+	ginEngine.GET("/index1", controllers.Index1)
 }
