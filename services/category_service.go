@@ -70,3 +70,12 @@ func GetCategoryListPage(where map[string]interface{}, page uint, pageSize uint)
 	})
 	return
 }
+
+/**
+ * @Description 批量更新
+ **/
+func UpdateCategoryByIds(values map[string]interface{}, ids ...uint) error {
+	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+		return db.Model(&models.CategoryModel{}).Where("id in (?)", ids).Update(values).Error
+	})
+}

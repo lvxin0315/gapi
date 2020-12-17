@@ -70,3 +70,23 @@ func GetDemoListPage(where map[string]interface{}, page uint, pageSize uint) (da
 	})
 	return
 }
+
+/**
+ * @Description 批量更新
+ **/
+func UpdateDemoByIds(values map[string]interface{}, ids ...uint) error {
+	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+		return db.Model(&models.DemoModel{}).Where("id in (?)", ids).Update(values).Error
+	})
+}
+
+/**
+ * @Description 字段值减少
+ **/
+func setDec() {
+	//Model(&product).UpdateColumn("quantity", gorm.Expr("quantity - ?", 1))
+}
+
+func setInc() {
+
+}

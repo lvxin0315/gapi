@@ -75,4 +75,5 @@ func swaggerRouter(r *gin.RouterGroup) {
 func addRouter() {
 	ginEngine.GET("/", controllers.Index)
 	ginEngine.GET("/index1", controllers.Index1)
+	ginEngine.GET("/index2", controllers.Index2)
 }

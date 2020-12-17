@@ -70,3 +70,12 @@ func GetGoodsListPage(where map[string]interface{}, page uint, pageSize uint) (d
 	})
 	return
 }
+
+/**
+ * @Description 批量更新
+ **/
+func UpdateGoodsByIds(values map[string]interface{}, ids ...uint) error {
+	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+		return db.Model(&models.GoodsModel{}).Where("id in (?)", ids).Update(values).Error
+	})
+}

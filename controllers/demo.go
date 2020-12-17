@@ -93,3 +93,12 @@ func Index1(c *gin.Context) {
 		fmt.Println(d.Name)
 	}
 }
+
+func Index2(c *gin.Context) {
+	err := services.UpdateCategoryByIds(map[string]interface{}{
+		"title": "分类-1",
+	}, 1)
+	if err != nil {
+		panic(err)
+	}
+}
