@@ -1,12 +1,8 @@
 package main
 
 import (
-	"bytes"
-	"fmt"
+	"github.com/lvxin0315/gapi/core/generate"
 	"github.com/lvxin0315/gapi/models"
-	"io/ioutil"
-	"reflect"
-	"strings"
 )
 
 /**
@@ -18,10 +14,12 @@ import (
  **/
 
 const ServiceDir = "services"
-const DemoServiceFilePath = "services/demo_service.go"
 
 func main() {
-	autoService(
+	genService := generate.GenService{
+		ServiceDir: ServiceDir,
+	}
+	genService.AutoService(
 		models.EbAgreementModel{},
 		models.EbArticleModel{},
 		models.EbArticleCategoryModel{},
@@ -125,34 +123,4 @@ func main() {
 		models.EbWechatReplyModel{},
 		models.EbWechatUserModel{},
 	)
-
-}
-
-func autoService(models ...interface{}) {
-	for _, m := range models {
-		moduleName := strings.ReplaceAll(reflect.TypeOf(m).Name(), "Model", "")
-		writeServiceFile(moduleName)
-	}
-}
-
-func writeServiceFile(moduleName string) {
-	modelName := fmt.Sprintf("%sModel", moduleName)
-	commonServiceBytes := readCommonServiceFile()
-	//model name
-	commonServiceBytes = bytes.ReplaceAll(commonServiceBytes, []byte("DemoModel"), []byte(modelName))
-	//module name
-	commonServiceBytes = bytes.ReplaceAll(commonServiceBytes, []byte("Demo"), []byte(moduleName))
-	//写入文件
-	err := ioutil.WriteFile(fmt.Sprintf("%s/%s_service.go", ServiceDir, strings.ToLower(moduleName)), commonServiceBytes, 0755)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func readCommonServiceFile() []byte {
-	serviceBytes, err := ioutil.ReadFile(DemoServiceFilePath)
-	if err != nil {
-		panic(err)
-	}
-	return serviceBytes
 }

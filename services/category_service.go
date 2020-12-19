@@ -2,9 +2,9 @@ package services
 
 import (
 	"github.com/jinzhu/gorm"
+	"github.com/lvxin0315/gapi/core/tools"
 	"github.com/lvxin0315/gapi/db"
 	"github.com/lvxin0315/gapi/models"
-	"github.com/lvxin0315/gapi/tools"
 )
 
 /**
