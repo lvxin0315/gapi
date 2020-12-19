@@ -25,5 +25,5 @@ func SqliteDB(dbName string, fs ...FuncWithDB) error {
 }
 
 func DefaultSqliteDB(fs ...FuncWithDB) error {
-	return SqliteDB(etc.SqliteName, fs...)
+	return SqliteDB(etc.SqliteDatabaseName, fs...)
 }

@@ -83,10 +83,17 @@ func UpdateDemoByIds(values map[string]interface{}, ids ...uint) error {
 /**
  * @Description 字段值减少
  **/
-func setDec() {
-	//Model(&product).UpdateColumn("quantity", gorm.Expr("quantity - ?", 1))
+func SetDemoDec(column string, value int) error {
+	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+		return db.Model(&models.DemoModel{}).UpdateColumn(column, gorm.Expr("? - ?", column, value)).Error
+	})
 }
 
-func setInc() {
-
+/**
+ * @Description 字段值增加
+ **/
+func SetDemoInc(column string, value int) error {
+	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+		return db.Model(&models.DemoModel{}).UpdateColumn(column, gorm.Expr("? + ?", column, value)).Error
+	})
 }

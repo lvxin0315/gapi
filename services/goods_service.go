@@ -79,3 +79,14 @@ func UpdateGoodsByIds(values map[string]interface{}, ids ...uint) error {
 		return db.Model(&models.GoodsModel{}).Where("id in (?)", ids).Update(values).Error
 	})
 }
+
+/**
+ * @Description 字段值减少
+ **/
+func setDec() {
+	//Model(&product).UpdateColumn("quantity", gorm.Expr("quantity - ?", 1))
+}
+
+func setInc() {
+
+}

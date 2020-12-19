@@ -1,5 +1,11 @@
 package etc
 
 const (
-	SqliteName = "demo"
+	SqliteDatabaseName = "demo"
+
+	MysqlUser     = "root"
+	MysqlPassword = "root"
+	MysqlHost     = "localhost"
+	MysqlPort     = 3306
+	MysqlDatabase = "sjyx"
 )

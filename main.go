@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/lvxin0315/gapi/controllers"
+	"github.com/lvxin0315/gapi/controllers/product"
 	"github.com/lvxin0315/gapi/db"
 	_ "github.com/lvxin0315/gapi/docs"
 	"github.com/lvxin0315/gapi/models"
@@ -71,9 +72,10 @@ func swaggerRouter(r *gin.RouterGroup) {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
-//理由
+//路由
 func addRouter() {
 	ginEngine.GET("/", controllers.Index)
 	ginEngine.GET("/index1", controllers.Index1)
 	ginEngine.GET("/index2", controllers.Index2)
+	ginEngine.GET("/product/v1.product.StoreProduct/index", product.Index)
 }
