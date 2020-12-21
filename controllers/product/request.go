@@ -1,14 +1,21 @@
 package product
 
+import "errors"
+
 type indexRequest struct {
 	StoreName string `json:"store_name" form:"store_name" `
-	CateId    string `json:"cate_id" form:"cate_id" `
+	CateId    int    `json:"cate_id" form:"cate_id" binding:"required"`
 	Type      int    `json:"type" form:"type" `
-	Sales     string `json:"sales" form:"sales" `
+	Sales     string `json:"sales" form:"sales"`
 }
 
-func (req *indexRequest) Default() *indexRequest {
+func (req *indexRequest) Default() {
 	req.Type = 1
-	req.Sales = "normal"
-	return req
+}
+
+func (req *indexRequest) CustomVerification() error {
+	if req.StoreName == "demo" {
+		return errors.New("StoreName is Demo")
+	}
+	return nil
 }
