@@ -8,4 +8,5 @@ const (
 	MysqlHost     = "localhost"
 	MysqlPort     = 3306
 	MysqlDatabase = "sjyx"
+	MysqlLogMode  = true
 )

@@ -12,8 +12,8 @@ const (
 )
 
 const (
-	ErrorCode = 1
-	OKCode    = 0
+	ErrorCode = 400
+	OKCode    = 200
 )
 
 type output struct {

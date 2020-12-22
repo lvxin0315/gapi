@@ -14,6 +14,7 @@ func MysqlDB(fs ...FuncWithDB) error {
 		etc.MysqlHost,
 		etc.MysqlPort,
 		etc.MysqlDatabase))
+	db.LogMode(etc.MysqlLogMode)
 	defer db.Close()
 	if err != nil {
 		return err

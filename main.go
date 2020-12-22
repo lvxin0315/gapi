@@ -78,4 +78,8 @@ func addRouter() {
 	ginEngine.GET("/index1", controllers.Index1)
 	ginEngine.GET("/index2", controllers.Index2)
 	ginEngine.GET("/product/v1.product.StoreProduct/index", product.Index)
+
+	// api
+	api := ginEngine.Group("/api")
+	api.GET("category", controllers.Category)
 }

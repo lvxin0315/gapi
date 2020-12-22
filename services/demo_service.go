@@ -38,9 +38,12 @@ func GetDemo(id uint) (data models.DemoModel, err error) {
 /**
  * @Description 列表
  **/
-func GetDemoList(where map[string]interface{}) (dataList []models.DemoModel, err error) {
+func GetDemoList(where map[string]interface{}, limit int) (dataList []models.DemoModel, err error) {
+	if limit <= 0 {
+		limit = 1000
+	}
 	err = db.DefaultSqliteDB(func(db *gorm.DB) error {
-		return db.Where(where).Find(&dataList).Error
+		return db.Where(where).Limit(limit).Find(&dataList).Error
 	})
 	return
 }
