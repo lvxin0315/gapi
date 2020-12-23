@@ -1,5 +1,15 @@
 package controllers
 
+type pageRequest struct {
+	Page  uint `form:"page"`
+	Limit uint `form:"limit"`
+}
+
+func (req *pageRequest) Default() {
+	req.Page = 1
+	req.Limit = 20
+}
+
 type categoryRequest struct {
 	Pid   int    `json:"pid"  form:"pid"`
 	Name  string `json:"name"  form:"name"`
@@ -8,4 +18,15 @@ type categoryRequest struct {
 
 func (req *categoryRequest) Default() {
 	req.Pid = -1
+}
+
+type productsRequest struct {
+	Sid        int    `form:"sid"`
+	Keyword    string `form:"keyword"`
+	PriceOrder string `form:"price_order"`
+	SalesOrder string `form:"sales_order"`
+	News       bool   `form:"news"`
+	Cid        int    `form:"cid"`
+	Ids        string `form:"ids"`
+	pageRequest
 }

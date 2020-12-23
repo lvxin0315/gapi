@@ -1,7 +1,5 @@
 package tools
 
-import "errors"
-
 type Pagination struct {
 	Total    uint                   `json:"total"`
 	Page     uint                   `json:"page"`
@@ -14,9 +12,5 @@ func NewPagination(total, page, pageSize uint, where map[string]interface{}) (pa
 	pagination.Page = page
 	pagination.PageSize = pageSize
 	pagination.Where = where
-	if (page+1)*pageSize > total {
-		err = errors.New("分页异常")
-		return
-	}
 	return
 }

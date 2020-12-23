@@ -82,4 +82,5 @@ func addRouter() {
 	// api
 	api := ginEngine.Group("/api")
 	api.GET("category", controllers.Category)
+	api.GET("products", controllers.Products)
 }

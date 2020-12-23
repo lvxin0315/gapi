@@ -11,7 +11,7 @@ import (
  * @Description 保存
  **/
 func SaveDemo(m *models.DemoModel) error {
-	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+	return db.MysqlDB(func(db *gorm.DB) error {
 		return db.Save(m).Error
 	})
 }
@@ -20,7 +20,7 @@ func SaveDemo(m *models.DemoModel) error {
  * @Description 删除
  **/
 func DeleteDemoByIds(ids ...uint) error {
-	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+	return db.MysqlDB(func(db *gorm.DB) error {
 		return db.Delete(&models.DemoModel{}, "id in (?)", ids).Error
 	})
 }
@@ -29,7 +29,7 @@ func DeleteDemoByIds(ids ...uint) error {
  * @Description 查询
  **/
 func GetDemo(id uint) (data models.DemoModel, err error) {
-	err = db.DefaultSqliteDB(func(db *gorm.DB) error {
+	err = db.MysqlDB(func(db *gorm.DB) error {
 		return db.Where("id = ?", id).First(&data).Error
 	})
 	return
@@ -38,12 +38,16 @@ func GetDemo(id uint) (data models.DemoModel, err error) {
 /**
  * @Description 列表
  **/
-func GetDemoList(where map[string]interface{}, limit int) (dataList []models.DemoModel, err error) {
+func GetDemoList(where map[string]interface{}, limit int, order string) (dataList []models.DemoModel, err error) {
 	if limit <= 0 {
 		limit = 1000
 	}
-	err = db.DefaultSqliteDB(func(db *gorm.DB) error {
-		return db.Where(where).Limit(limit).Find(&dataList).Error
+	whereSql, valueList, err := tools.WhereBuild(where)
+	if err != nil {
+		return nil, err
+	}
+	err = db.MysqlDB(func(db *gorm.DB) error {
+		return db.Where(whereSql, valueList...).Limit(limit).Order(order).Find(&dataList).Error
 	})
 	return
 }
@@ -51,13 +55,17 @@ func GetDemoList(where map[string]interface{}, limit int) (dataList []models.Dem
 /**
  * @Description 列表（分页）
  **/
-func GetDemoListPage(where map[string]interface{}, page uint, pageSize uint) (dataList []models.DemoModel, pagination tools.Pagination, err error) {
+func GetDemoListPage(where map[string]interface{}, page uint, pageSize uint, order string) (dataList []models.DemoModel, pagination tools.Pagination, err error) {
 	offset := 0
 	if page > 1 {
 		offset = int((page - 1) * pageSize)
 	}
-	err = db.DefaultSqliteDB(func(db *gorm.DB) error {
-		theDB := db.Model(&models.DemoModel{}).Where(where)
+	whereSql, valueList, err := tools.WhereBuild(where)
+	if err != nil {
+		return
+	}
+	err = db.MysqlDB(func(db *gorm.DB) error {
+		theDB := db.Model(&models.DemoModel{}).Where(whereSql, valueList...)
 		//total
 		total := 0
 		err := theDB.Count(&total).Error
@@ -69,7 +77,7 @@ func GetDemoListPage(where map[string]interface{}, page uint, pageSize uint) (da
 			return err
 		}
 		//dataList
-		return theDB.Offset(offset).Limit(pageSize).Find(&dataList).Error
+		return theDB.Offset(offset).Limit(pageSize).Order(order).Find(&dataList).Error
 	})
 	return
 }
@@ -78,7 +86,7 @@ func GetDemoListPage(where map[string]interface{}, page uint, pageSize uint) (da
  * @Description 批量更新
  **/
 func UpdateDemoByIds(values map[string]interface{}, ids ...uint) error {
-	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+	return db.MysqlDB(func(db *gorm.DB) error {
 		return db.Model(&models.DemoModel{}).Where("id in (?)", ids).Update(values).Error
 	})
 }
@@ -87,7 +95,7 @@ func UpdateDemoByIds(values map[string]interface{}, ids ...uint) error {
  * @Description 字段值减少
  **/
 func SetDemoDec(column string, value int) error {
-	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+	return db.MysqlDB(func(db *gorm.DB) error {
 		return db.Model(&models.DemoModel{}).UpdateColumn(column, gorm.Expr("? - ?", column, value)).Error
 	})
 }
@@ -96,7 +104,7 @@ func SetDemoDec(column string, value int) error {
  * @Description 字段值增加
  **/
 func SetDemoInc(column string, value int) error {
-	return db.DefaultSqliteDB(func(db *gorm.DB) error {
+	return db.MysqlDB(func(db *gorm.DB) error {
 		return db.Model(&models.DemoModel{}).UpdateColumn(column, gorm.Expr("? + ?", column, value)).Error
 	})
 }
