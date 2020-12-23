@@ -5,7 +5,6 @@ import (
 	"github.com/lvxin0315/gapi/core/request"
 	"github.com/lvxin0315/gapi/core/response"
 	"github.com/lvxin0315/gapi/services"
-	"github.com/sirupsen/logrus"
 	"strings"
 )
 
@@ -53,11 +52,10 @@ func Products(c *gin.Context) {
 		where["id in"] = productIds
 	}
 	//查询
-	dataList, pagination, err := services.GetSearchList(where, productsRequest.Page, productsRequest.Limit, order)
+	dataList, _, err := services.GetSearchList(where, productsRequest.Page, productsRequest.Limit, order)
 	if err != nil {
 		response.Fail(c, err, err.Error())
 		return
 	}
-	logrus.Info(pagination)
 	response.Success(c, dataList)
 }

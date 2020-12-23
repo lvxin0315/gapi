@@ -23,8 +23,8 @@ func (req *categoryRequest) Default() {
 type productsRequest struct {
 	Sid        int    `form:"sid"`
 	Keyword    string `form:"keyword"`
-	PriceOrder string `form:"price_order"`
-	SalesOrder string `form:"sales_order"`
+	PriceOrder string `form:"priceOrder"`
+	SalesOrder string `form:"salesOrder"`
 	News       bool   `form:"news"`
 	Cid        int    `form:"cid"`
 	Ids        string `form:"ids"`
