@@ -3,8 +3,6 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"github.com/lvxin0315/gapi/controllers"
-	"github.com/lvxin0315/gapi/controllers/product"
 	"github.com/lvxin0315/gapi/db"
 	_ "github.com/lvxin0315/gapi/docs"
 	"github.com/lvxin0315/gapi/models"
@@ -38,7 +36,7 @@ func main() {
 func autoMigrate() {
 	_ = db.DefaultSqliteDB(func(db *gorm.DB) error {
 		db.LogMode(true)
-		db.AutoMigrate(models.DemoModel{}, models.GoodsModel{}, models.CategoryModel{})
+		db.AutoMigrate(models.DemoModel{})
 		return nil
 	})
 }
@@ -74,13 +72,14 @@ func swaggerRouter(r *gin.RouterGroup) {
 
 //路由
 func addRouter() {
-	ginEngine.GET("/", controllers.Index)
-	ginEngine.GET("/index1", controllers.Index1)
-	ginEngine.GET("/index2", controllers.Index2)
-	ginEngine.GET("/product/v1.product.StoreProduct/index", product.Index)
+	//ginEngine.GET("/", controllers.Index)
+	//ginEngine.GET("/index1", controllers.Index1)
+	//ginEngine.GET("/index2", controllers.Index2)
+	//ginEngine.GET("/product/v1.product.StoreProduct/index", product.Index)
 
 	// api
-	api := ginEngine.Group("/api")
-	api.GET("category", controllers.Category)
-	api.GET("products", controllers.Products)
+	//api := ginEngine.Group("/api")
+	//api.GET("category", controllers.Category)
+	//api.GET("products", controllers.Products)
+	//api.GET("product/hot", controllers.ProductHot)
 }

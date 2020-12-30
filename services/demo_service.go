@@ -108,3 +108,17 @@ func SetDemoInc(column string, value int) error {
 		return db.Model(&models.DemoModel{}).UpdateColumn(column, gorm.Expr("? + ?", column, value)).Error
 	})
 }
+
+/**
+ * @Description 通用获取
+ **/
+func GetDemoByWhere(where map[string]interface{}) (data models.DemoModel, err error) {
+	whereSql, valueList, err := tools.WhereBuild(where)
+	if err != nil {
+		return
+	}
+	err = db.MysqlDB(func(db *gorm.DB) error {
+		return db.Where(whereSql, valueList...).First(&data).Error
+	})
+	return
+}
